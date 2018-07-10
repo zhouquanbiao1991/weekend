@@ -1,2 +1,2 @@
 # weekend
-private integrate manager
+private manager
