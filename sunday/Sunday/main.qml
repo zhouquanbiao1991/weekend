@@ -5,18 +5,29 @@ ApplicationWindow {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Scroll")
+    title: qsTr("Tabs")
 
-    ScrollView {
+    SwipeView {
+        id: swipeView
         anchors.fill: parent
+        currentIndex: tabBar.currentIndex
 
-        ListView {
-            width: parent.width
-            model: 20
-            delegate: ItemDelegate {
-                text: "Item " + (index + 1)
-                width: parent.width
-            }
+        Page1 {
+        }
+
+        Page2 {
+        }
+    }
+
+    footer: TabBar {
+        id: tabBar
+        currentIndex: swipeView.currentIndex
+
+        TabButton {
+            text: qsTr("Page 1????")
+        }
+        TabButton {
+            text: qsTr("Page 2")
         }
     }
 }
