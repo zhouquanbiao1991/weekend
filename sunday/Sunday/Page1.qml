@@ -8,177 +8,281 @@ Page {
     //property alias listView: listView
 
     title: qsTr("Page 1")
-    //model
-    Component{
-        id: taskModel
-        ListModel{
-            ListElement{
-                time: "1"
-                title:"2"
-                content:"3"
-            }
-            ListElement{
-                time: "4"
-                title:"5"
-                content:"6"
-            }
-            ListElement{
-                time: "7"
-                title:"8"
-                content:"9"
+    Rectangle{
+        anchors.top: parent.top
+        anchors.left: parent.left
+        width: parent.width
+        height: 10
+
+        //model
+        Component{
+            id: taskModel
+            ListModel{
+                ListElement{
+                    time: "1"
+                    title:"2"
+                    content:"3"
+                }
+                ListElement{
+                    time: "4"
+                    title:"5"
+                    content:"6"
+                }
+                ListElement{
+                    time: "7"
+                    title:"8"
+                    content:"9"
+                }
+                ListElement{
+                    time: "1"
+                    title:"2"
+                    content:"3"
+                }
+                ListElement{
+                    time: "4"
+                    title:"5"
+                    content:"6"
+                }
+                ListElement{
+                    time: "7"
+                    title:"8"
+                    content:"9"
+                }
+                ListElement{
+                    time: "1"
+                    title:"2"
+                    content:"3"
+                }
+                ListElement{
+                    time: "4"
+                    title:"5"
+                    content:"6"
+                }
+                ListElement{
+                    time: "7"
+                    title:"8"
+                    content:"9"
+                }
+                ListElement{
+                    time: "1"
+                    title:"2"
+                    content:"3"
+                }
+                ListElement{
+                    time: "4"
+                    title:"5"
+                    content:"6"
+                }
+                ListElement{
+                    time: "7"
+                    title:"8"
+                    content:"9"
+                }
+                ListElement{
+                    time: "1"
+                    title:"2"
+                    content:"3"
+                }
+                ListElement{
+                    time: "4"
+                    title:"5"
+                    content:"6"
+                }
+                ListElement{
+                    time: "7"
+                    title:"8"
+                    content:"9"
+                }
+                ListElement{
+                    time: "1"
+                    title:"2"
+                    content:"3"
+                }
+                ListElement{
+                    time: "4"
+                    title:"5"
+                    content:"6"
+                }
+                ListElement{
+                    time: "7"
+                    title:"8"
+                    content:"9"
+                }
+                ListElement{
+                    time: "1"
+                    title:"2"
+                    content:"3"
+                }
+                ListElement{
+                    time: "4"
+                    title:"5"
+                    content:"6"
+                }
+                ListElement{
+                    time: "7"
+                    title:"8"
+                    content:"9"
+                }
             }
         }
-    }
-    //head
-    Component{
-        id: headerView
-        Item {
-            id:taskDelegateItem
-            width: parent.width
-            height: 30
-            MouseArea{
-                anchors.fill: parent
-                onClicked: taskDelegateItem.ListView.view.currentIndex = index
-            }
-            RowLayout{
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 8
-                Text {
-                    text: "title"
-                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
-                    Layout.preferredWidth: 120
+        //head
+        Component{
+            id: headerView
+            Item {
+                id:taskDelegateItem
+                width: parent.width
+                height: 30
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: taskDelegateItem.ListView.view.currentIndex = index
                 }
-                Text {
-                    text: "time"
-                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
-                    Layout.preferredWidth: 120
-                }
-                Text {
-                    text: "content"
-                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
-                    Layout.preferredWidth: 120
+                RowLayout{
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 8
+                    Text {
+                        text: "title"
+                        color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                        font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
+                        Layout.preferredWidth: 120
+                    }
+                    Text {
+                        text: "time"
+                        color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                        font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
+                        Layout.preferredWidth: 120
+                    }
+                    Text {
+                        text: "content"
+                        color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                        font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
+                        Layout.preferredWidth: 120
+                    }
                 }
             }
         }
-    }
-    //foot
-    Component{
-        id: footView
-        Item{
-            signal del();
-            id: footerRootItem
-            width: parent.width
-            height: 30
-            /*            Text{
+        //foot
+        Component{
+            id: footView
+            Item{
+                signal del();
+                id: footerRootItem
+                width: parent.width
+                height: 30
+                /*            Text{
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
             }*/
-            RowLayout{
-                height: 30
+                RowLayout{
+                    height: 30
+                    width: parent.width
+                    Button {
+                        id:addBtn
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "add"
+                        onClicked: {}
+                    }
+                    Button {
+                        id:modifyBtn
+                        anchors.left: addBtn.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "change"
+                        onClicked: {}
+                    }
+                    Button {
+                        id:delBtn
+                        anchors.left: modifyBtn.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "delete"
+                        onClicked: footerRootItem.del();
+                    }
+                }
+            }
+        }
+        //delegate
+        Component{
+            id: taskDelegate
+            Item {
+                id:taskDelegateItem
                 width: parent.width
-                Button {
-                    id:addBtn
+                height: 30
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: taskDelegateItem.ListView.view.currentIndex = index
+                }
+                RowLayout{
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    text: "add"
-                    onClicked: {}
-                }
-                Button {
-                    id:modifyBtn
-                    anchors.left: addBtn.right
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "change"
-                    onClicked: {}
-                }
-                Button {
-                    id:delBtn
-                    anchors.left: modifyBtn.right
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "delete"
-                    onClicked: footerRootItem.del();
-                }
-            }
-        }
-    }
-    //delegate
-    Component{
-        id: taskDelegate
-        Item {
-            id:taskDelegateItem
-            width: parent.width
-            height: 30
-            MouseArea{
-                anchors.fill: parent
-                onClicked: taskDelegateItem.ListView.view.currentIndex = index
-            }
-            RowLayout{
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 8
-                Text {
-                    text: title
-                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
-                    Layout.preferredWidth: 120
-                }
-                Text {
-                    text: time
-                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
-                    Layout.preferredWidth: 120
-                }
-                Text {
-                    text: content
-                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
-                    Layout.preferredWidth: 120
+                    spacing: 8
+                    Text {
+                        text: title
+                        color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                        font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
+                        Layout.preferredWidth: 120
+                    }
+                    Text {
+                        text: time
+                        color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                        font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
+                        Layout.preferredWidth: 120
+                    }
+                    Text {
+                        text: content
+                        color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                        font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
+                        Layout.preferredWidth: 120
+                    }
                 }
             }
         }
+
+        ListView{
+            id: listView
+            width: 180; height: 200
+            //anchors.bottomMargin: 50
+            //anchors.fill: parent
+            delegate: taskDelegate
+            model: taskModel.createObject(listView)
+            header: headerView
+            //footer: footView
+
+            //focus: true
+            highlight: Rectangle{
+                color: "lightblue"
+            }
+
+            onCurrentIndexChanged: {
+
+            }
+
+            function deleteItem(){
+                model.remove(listView.currentIndex);
+            }
+
+            Component.onCompleted: {
+                listView.footerItem.del.connect(listView.deleteItem);
+            }
+        }
     }
-
-    ListView{
-        id: listView
-        anchors.fill: parent
-        delegate: taskDelegate
-        model: taskModel.createObject(listView)
-        header: headerView
-        footer: footView
-
-        focus: true
-        highlight: Rectangle{
-            color: "lightblue"
-        }
-
-        onCurrentIndexChanged: {
-
-        }
-
-        function deleteItem(){
-            model.remove(listView.currentIndex);
-        }
-
-        Component.onCompleted: {
-            listView.footerItem.del.connect(listView.deleteItem);
-        }
-    }
-
     Rectangle{
-        anchors.bottomMargin: 30
+        y: 374
+        anchors.bottomMargin: 26
         anchors.left:parent.left
         anchors.bottom:parent.bottom
         width: parent.width
+        anchors.leftMargin: 0
 
+        visible:true
         GridLayout{
+            y: -60
             anchors.left:parent.left
             anchors.bottom:parent.bottom
             width: parent.width
             height: 60
+            anchors.bottomMargin: 0
+            anchors.leftMargin: 0
             rows:3
             rowSpacing: 3
             columns: 3
