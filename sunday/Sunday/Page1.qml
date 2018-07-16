@@ -33,12 +33,12 @@ Page {
     Component{
         id: headerView
         Item {
-            id:wrapper
+            id:taskDelegateItem
             width: parent.width
             height: 30
             MouseArea{
                 anchors.fill: parent
-                onClicked: wrapper.ListView.view.currentIndex = index
+                onClicked: taskDelegateItem.ListView.view.currentIndex = index
             }
             RowLayout{
                 anchors.left: parent.left
@@ -46,20 +46,20 @@ Page {
                 spacing: 8
                 Text {
                     text: "title"
-                    color: wrapper.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: wrapper.ListView.isCurrentItem?22:18
+                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
                     Layout.preferredWidth: 120
                 }
                 Text {
                     text: "time"
-                    color: wrapper.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: wrapper.ListView.isCurrentItem?22:18
+                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
                     Layout.preferredWidth: 120
                 }
                 Text {
                     text: "content"
-                    color: wrapper.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: wrapper.ListView.isCurrentItem?22:18
+                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
                     Layout.preferredWidth: 120
                 }
             }
@@ -68,22 +68,53 @@ Page {
     //foot
     Component{
         id: footView
-        Text{
-            width: 60
+        Item{
+            signal del();
+            id: footerRootItem
+            width: parent.width
             height: 30
-            text: "abc"
+            /*            Text{
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+            }*/
+            RowLayout{
+                height: 30
+                width: parent.width
+                Button {
+                    id:addBtn
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: "add"
+                    onClicked: {}
+                }
+                Button {
+                    id:modifyBtn
+                    anchors.left: addBtn.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: "change"
+                    onClicked: {}
+                }
+                Button {
+                    id:delBtn
+                    anchors.left: modifyBtn.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: "delete"
+                    onClicked: footerRootItem.del();
+                }
+            }
         }
     }
     //delegate
     Component{
         id: taskDelegate
         Item {
-            id:wrapper
+            id:taskDelegateItem
             width: parent.width
             height: 30
             MouseArea{
                 anchors.fill: parent
-                onClicked: wrapper.ListView.view.currentIndex = index
+                onClicked: taskDelegateItem.ListView.view.currentIndex = index
             }
             RowLayout{
                 anchors.left: parent.left
@@ -91,20 +122,20 @@ Page {
                 spacing: 8
                 Text {
                     text: title
-                    color: wrapper.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: wrapper.ListView.isCurrentItem?22:18
+                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
                     Layout.preferredWidth: 120
                 }
                 Text {
                     text: time
-                    color: wrapper.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: wrapper.ListView.isCurrentItem?22:18
+                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
                     Layout.preferredWidth: 120
                 }
                 Text {
                     text: content
-                    color: wrapper.ListView.isCurrentItem?"red":"black"
-                    font.pixelSize: wrapper.ListView.isCurrentItem?22:18
+                    color: taskDelegateItem.ListView.isCurrentItem?"red":"black"
+                    font.pixelSize: taskDelegateItem.ListView.isCurrentItem?22:18
                     Layout.preferredWidth: 120
                 }
             }
@@ -113,12 +144,7 @@ Page {
 
     ListView{
         id: listView
-        anchors.rightMargin: 0
-        anchors.bottomMargin: 0
-        anchors.leftMargin: 0
-        anchors.topMargin: 0
         anchors.fill: parent
-
         delegate: taskDelegate
         model: taskModel.createObject(listView)
         header: headerView
@@ -127,6 +153,85 @@ Page {
         focus: true
         highlight: Rectangle{
             color: "lightblue"
+        }
+
+        onCurrentIndexChanged: {
+
+        }
+
+        function deleteItem(){
+            model.remove(listView.currentIndex);
+        }
+
+        Component.onCompleted: {
+            listView.footerItem.del.connect(listView.deleteItem);
+        }
+    }
+
+    Rectangle{
+        anchors.bottomMargin: 30
+        anchors.left:parent.left
+        anchors.bottom:parent.bottom
+        width: parent.width
+
+        GridLayout{
+            anchors.left:parent.left
+            anchors.bottom:parent.bottom
+            width: parent.width
+            height: 60
+            rows:3
+            rowSpacing: 3
+            columns: 3
+            columnSpacing: 3
+
+            Text {
+                id:time_text
+                text: "Time:"
+            }
+            TextInput {
+                id:time_input
+                Layout.columnSpan: 2
+            }
+
+            Text {
+                id:title_text
+                text: "title:"
+            }
+            TextInput {
+                id:title_input
+                Layout.columnSpan: 2
+                Layout.fillWidth: true
+            }
+
+            Text {
+                id:content_text
+                text: "content:"
+            }
+            TextInput {
+                id:content_input
+                Layout.columnSpan: 2
+
+            }
+            Button {
+                id:add
+                text: "add"
+                Layout.fillWidth: true
+                onClicked: {}
+            }
+
+            Button {
+                id:modify
+                text: "change"
+                Layout.fillWidth: true
+                onClicked: {}
+            }
+            Button {
+                id:deleteBtn
+                text: "delete"
+                Layout.fillWidth: true
+                onClicked: footerRootItem.del();
+            }
+
         }
     }
 }
