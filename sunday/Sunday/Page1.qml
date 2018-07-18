@@ -240,7 +240,8 @@ Page {
 
         ListView{
             id: listView
-            width: 180; height: 200
+            width: 180;
+            height: 200
             //anchors.bottomMargin: 50
             //anchors.fill: parent
             delegate: taskDelegate
@@ -260,10 +261,25 @@ Page {
             function deleteItem(){
                 model.remove(listView.currentIndex);
             }
-
-            Component.onCompleted: {
-                listView.footerItem.del.connect(listView.deleteItem);
+            function addItem(time, title, content){
+                model.append(
+                            {
+                                "time" : time_input.text,
+                                "title" : title_input.text,
+                                "content" : content_input.text
+                            }
+                            );
             }
+            function modifyItem(time, title, content){
+                model.set(currentIndex,
+                          {
+                              "time" : time_input.text,
+                              "title" : title_input.text,
+                              "content" : content_input.text                            }
+                          );
+            }
+
+
         }
     }
     Rectangle{
@@ -287,6 +303,11 @@ Page {
             rowSpacing: 3
             columns: 3
             columnSpacing: 3
+
+            id: inputLayout
+            signal add()
+            signal modify()
+            signal del()
 
             Text {
                 id:time_text
@@ -320,22 +341,27 @@ Page {
                 id:add
                 text: "add"
                 Layout.fillWidth: true
-                onClicked: {}
+                onClicked: inputLayout.add(time_input.text, title_input.text, content_input.text)
             }
 
             Button {
                 id:modify
                 text: "change"
                 Layout.fillWidth: true
-                onClicked: {}
+                onClicked: inputLayout.modify(time_input.text, title_input.text, content_input.text)
             }
             Button {
                 id:deleteBtn
                 text: "delete"
                 Layout.fillWidth: true
-                onClicked: footerRootItem.del();
+                onClicked: inputLayout.del();
             }
 
+            Component.onCompleted: {
+                inputLayout.del.connect(listView.deleteItem);
+                inputLayout.add.connect(listView.addItem);
+                inputLayout.modify.connect(listView.modifyItem);
+            }
         }
     }
 }
