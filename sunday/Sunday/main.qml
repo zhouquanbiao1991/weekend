@@ -29,5 +29,8 @@ ApplicationWindow {
         TabButton {
             text: qsTr("Page 2")
         }
+        TabButton {
+            text: qsTr("Page 3")
+        }
     }
 }

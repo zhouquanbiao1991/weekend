@@ -162,6 +162,7 @@ Page {
             }
         }
         //foot
+        /*
         Component{
             id: footView
             Item{
@@ -169,11 +170,7 @@ Page {
                 id: footerRootItem
                 width: parent.width
                 height: 30
-                /*            Text{
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-            }*/
+
                 RowLayout{
                     height: 30
                     width: parent.width
@@ -201,6 +198,7 @@ Page {
                 }
             }
         }
+        */
         //delegate
         Component{
             id: taskDelegate
