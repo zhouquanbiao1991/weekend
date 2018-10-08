@@ -273,11 +273,10 @@ Page {
                           {
                               "time" : time_input.text,
                               "title" : title_input.text,
-                              "content" : content_input.text                            }
+                              "content" : content_input.text
+                          }
                           );
             }
-
-
         }
     }
     Rectangle{
