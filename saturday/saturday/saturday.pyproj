@@ -21,6 +21,12 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="dao_mission.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="middleware.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="practice.py">
       <SubType>Code</SubType>
     </Compile>

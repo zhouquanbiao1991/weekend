@@ -137,8 +137,6 @@ class Query_variable(graphene.ObjectType):
             return Patron(id=1,name="abc",age=19)
         else:
             return Patron(id=2,name="222",age=22)
-        #return Patron(id=1,name="abc",age=19)
-
 
 schema = graphene.Schema(query=Query_variable)
 query_str = """
