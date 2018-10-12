@@ -120,8 +120,9 @@ query = """
       }
     }
 """
-
-result = schema.execute('query { patron {id} }')
+result = schema.execute(query)
+#result = schema.execute('query { patron {id} }')
+print("obj: ")
 print(result.data)
 
 ################ variable ################
