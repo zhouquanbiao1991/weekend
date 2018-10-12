@@ -27,5 +27,5 @@ if __name__ == "__main__":
 
 # test curl :
 # query_str = curl localhost:8888/ -X POST -d "query myQuery { mission(id : 2) { id, missionName, triggerTime } }"
-# query_str = curl localhost:8888/ -X POST -d "mutation myMutation { add(missionName: "hurryup", triggerTime:"anytime") { mission, status } }"
+# query_str = curl localhost:8888/ -X POST -d "mutation myMutation { add(missionName: "hurryup", triggerTime:"anytime") { mission { id }, status } }"
 # query_str = mutation myFirstMutation { createPerson(name:"Peter") { person { name } ok } }
