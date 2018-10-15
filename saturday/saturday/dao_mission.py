@@ -22,19 +22,32 @@ def add_mission(mission_name, trigger_time):
     finally:
         connection.close();
         
-def change_mission(id, mission_name, trigger_time):
+def modify_mission(id, mission_name, trigger_time):
+    #situtation have to be verify: no target mission
     connection = pymysql.connect(host="193.112.113.25",
                      user="weekend",
                      password="Z7URBdP7y8lPz7eU",
                      db="weekend" )
     try:
         with connection.cursor() as cursor:
-            sql = "update mission_table set mission_name=%s,trigger_time=%s where id=%d"
+            modify_sql = "update mission_table set mission_name='%s',trigger_time='%s' where id=%d" % (mission_name, trigger_time, id)
+            print("modify_sql: " + modify_sql)
+            query_sql = "select * from mission_table where id=%d;" % id
+            print("query_sql: " + query_sql)
             try:
-                cursor.execute(sql, (mission_name, trigger_time, id))
+                cursor.execute(modify_sql)
                 connection.commit()
+                print("success modify")
+                cursor.execute(query_sql)
+                results = cursor.fetchall()
+                for row in results:
+                    id = row[0]
+                    mission_name = row[1]
+                    trigger_time = row[2]
+                return (id, mission_name, trigger_time, True)
             except:
                 connection.rollback();
+                return (id, None, None, False)
     finally:
         connection.close();
 
@@ -45,12 +58,21 @@ def delete_mission(id):
                      db="weekend" )
     try:
         with connection.cursor() as cursor:
-            sql ="delete from title where id=%d;"
+            del_sql = "delete from mission_table where id=%d;" % id
+            query_sql = "select * from mission_table where id=%d;" % id
             try:
-                cursor.execute(sql, id)
+                cursor.execute(query_sql)
+                results = cursor.fetchall()
+                for row in results:
+                    id = row[0]
+                    mission_name = row[1]
+                    trigger_time = row[2]
+                cursor.execute(del_sql)
                 connection.commit()
+                return (id, mission_name, trigger_time, True)
             except:
                 connection.rollback();
+                return (id, None, None, False)
     finally:
         connection.close();
 

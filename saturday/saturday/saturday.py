@@ -26,5 +26,7 @@ if __name__ == "__main__":
     tornado.ioloop.IOLoop.current().start()
 
 # test curl :
-# query_str = curl localhost:8888/ -X POST -d "query myQuery { mission(id : 2) { id, missionName, triggerTime } }"
-# query_str = curl localhost:8888/ -X POST -d "mutation myMutation { addMission(missionName: \"hurryup\", triggerTime: \"anytime\") { mission { id } status } }"
+# query_str: curl localhost:8888/ -X POST -d "query myQuery { mission(id : 2) { id, missionName, triggerTime } }"
+# add_str: curl localhost:8888/ -X POST -d "mutation myMutation { addMission(missionName: \"hurryup\", triggerTime: \"anytime\") { mission { id } status } }"
+# del_str: curl localhost:8888/ -X POST -d "mutation mydelMutation { deleteMission(id: 3) { mission { id missionName triggerTime } status } }"
+# modify_str: curl localhost:8888/ -X POST -d "mutation mymodifyMutation { modifyMission(id: 6, missionName: \"gogogo\", triggerTime: \"wait for what\") { mission { id missionName triggerTime } status } }"

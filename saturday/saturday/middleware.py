@@ -7,7 +7,7 @@ class Mission(graphene.ObjectType):
     id = graphene.Int()
     missionName = graphene.String()
     triggerTime = graphene.String()
-
+    
 class AddMission(graphene.Mutation):
     class Arguments:
         missionName = graphene.String()
@@ -22,11 +22,43 @@ class AddMission(graphene.Mutation):
             status = "fail"
         mission = Mission(id=0, missionName=missionName, triggerTime=triggerTime)
         return AddMission(mission=mission, status=status)
+    
+class DeleteMission(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int()
+    status = graphene.String()
+    mission = graphene.Field(Mission)
+    def mutate(self, info, id):
+        print("mutate(): delete mission id: %d" % (id))
+        (id, mission_name, trigger_time, operation_status) = dao_mission.delete_mission(id)
+        if operation_status:
+            status = "success"
+        else:
+            status = "fail"
+        mission = Mission(id=id, missionName=mission_name, triggerTime=trigger_time)
+        return DeleteMission(mission=mission, status=status)
+
+class ModifyMission(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int()
+        missionName = graphene.String()
+        triggerTime = graphene.String()
+    status = graphene.String()
+    mission = graphene.Field(Mission)
+    def mutate(self, info, id, missionName, triggerTime):
+        print("mutate(): modify mission id: %d" % (id))
+        (id, mission_name, trigger_time, operation_status) = dao_mission.modify_mission(id, missionName, triggerTime)
+        if operation_status:
+            status = "success"
+        else:
+            status = "fail"
+        mission = Mission(id=id, missionName=mission_name, triggerTime=trigger_time)
+        return ModifyMission(mission=mission, status=status)
 
 class Mutations(graphene.ObjectType):
-    add_mission = AddMission.Field()
-    #deleteMission = 
-    #modifyMission = 
+    addMission = AddMission.Field()
+    deleteMission = DeleteMission.Field()
+    modifyMission = ModifyMission.Field()
     
 
 class Query(graphene.ObjectType):
