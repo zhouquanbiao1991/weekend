@@ -9,12 +9,14 @@ def add_mission(mission_name, trigger_time):
                      db="weekend" )
     try:
         with connection.cursor() as cursor:
-            sql ="insert into mission_table (mission_name, trigger_time) values('%s', '%s');"
+            sql ="insert into mission_table (mission_name, trigger_time) values(%s, %s);"
+            print("sql request: " + sql)
             try:
                 cursor.execute(sql, (mission_name, trigger_time))
                 connection.commit()
                 return True
             except:
+                print("database operation fail")
                 connection.rollback();
                 return False
     finally:
@@ -27,7 +29,7 @@ def change_mission(id, mission_name, trigger_time):
                      db="weekend" )
     try:
         with connection.cursor() as cursor:
-            sql = "update mission_table set mission_name='%s',trigger_time='%s' where id=%d"
+            sql = "update mission_table set mission_name=%s,trigger_time=%s where id=%d"
             try:
                 cursor.execute(sql, (mission_name, trigger_time, id))
                 connection.commit()

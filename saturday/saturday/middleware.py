@@ -12,16 +12,16 @@ class AddMission(graphene.Mutation):
     class Arguments:
         missionName = graphene.String()
         triggerTime = graphene.String()
-    mission = graphene.Field(Mission)
     status = graphene.String()
+    mission = graphene.Field(Mission)
     def mutate(self, info, missionName, triggerTime):
         print("mutate(): get missionName:%s, triggerTime%s" % (missionName, triggerTime))
-        #if dao_mission.add_mission(missionName, triggerTime):
-        #    status = "success"
-        #else:
-        #    status = "fail"
+        if dao_mission.add_mission(missionName, triggerTime):
+            status = "success"
+        else:
+            status = "fail"
         mission = Mission(id=0, missionName=missionName, triggerTime=triggerTime)
-        return addMission(mission=mission, status=status)
+        return AddMission(mission=mission, status=status)
 
 class Mutations(graphene.ObjectType):
     add_mission = AddMission.Field()

@@ -75,6 +75,7 @@ class CreatePerson(graphene.Mutation):
     ok = graphene.Boolean()
     person = graphene.Field(Person)
     def mutate(self, info, name):
+        print("!!!!")
         person = Person(name=name)
         ok = True
         return CreatePerson(person=person, ok=ok)
