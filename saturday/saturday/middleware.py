@@ -60,20 +60,32 @@ class Mutations(graphene.ObjectType):
     deleteMission = DeleteMission.Field()
     modifyMission = ModifyMission.Field()
     
-
 class Query(graphene.ObjectType):
-    mission = graphene.Field(Mission, id = graphene.Int(required=False))
-    def resolve_mission(self, info, id):
-        print("goto sql query")
-        results = dao_mission.query_mission(id)
-        m = graphene.Field(Mission)
+    #if there is argument "id", that only use id to query, ignore mission_name and trigger_time field
+    #if the argument "id" equal 0, then use mission_name or trigger_time to query
+    #otherwise, query all mission
+    missions = graphene.List(Mission, 
+                             id = graphene.Int(required=False, default_value=0),
+                             mission_name = graphene.String(required=False, default_value="null"),
+                             trigger_time = graphene.String(required=False, default_value="null"))
+    def resolve_missions(self, info, id, mission_name, trigger_time):
+        print("goto sql query list")
+        if id != 0:
+            results = dao_mission.query_mission_by_id(id)
+        elif mission_name!="null" or trigger_time!="null":
+            results = dao_mission.query_mission_by_mission_name_and_trigger_time(mission_name, trigger_time)
+        else:
+            results = dao_mission.query_mission_by_id(0)
+        m = []
         for row in results:
             id = row[0]
             mission_name = row[1]
             trigger_time = row[2]
-            #m.append(Mission(id=row[0], missionName=row[1], triggerTime=row[2]))
-            return Mission(id=row[0], missionName=row[1], triggerTime=row[2])
-        return m
+            m.append(Mission(id=row[0], missionName=row[1], triggerTime=row[2]))
+        m1 = graphene.List(Mission)
+        m1 = m
+        return m1
+
     
 def request(graphene_str):
     print("graphene request: " + graphene_str)
