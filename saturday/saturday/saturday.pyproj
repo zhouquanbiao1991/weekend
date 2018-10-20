@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>5d45b7d8-e70d-4895-a326-326f934271c5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>test_mission.py</StartupFile>
+    <StartupFile>saturday.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
