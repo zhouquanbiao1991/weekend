@@ -1,4 +1,6 @@
 import pymysql
+import json
+import logging
 
 sql_configuration_file = 'mysql.conf'
 
@@ -11,6 +13,14 @@ def db_conn():
     password = conf['database']['password']
     db = conf['database']['database_name']
     port = conf['database']['port']
+    #connect
+    logging.info("connect to db: host:%s, user:%s, password:%s, db:%s, port:%s" % \
+        (conf['database']['host'], \
+         conf['database']['user'], \
+         conf['database']['password'], \
+         conf['database']['database_name'], \
+         conf['database']['port']))
+
     connection = pymysql.connect(host=host,
                      user=user,
                      password=password,
@@ -26,7 +36,7 @@ def add_mission(mission_name, trigger_time):
     try:
         with connection.cursor() as cursor:
             sql ="insert into mission_table (mission_name, trigger_time) values(%s, %s);"
-            print("sql request: " + sql)
+            logging.info("sql request: " + sql)
             try:
                 cursor.execute(sql, (mission_name, trigger_time))
                 connection.commit()
@@ -44,9 +54,8 @@ def modify_mission(id, mission_name, trigger_time):
     try:
         with connection.cursor() as cursor:
             modify_sql = "update mission_table set mission_name='%s',trigger_time='%s' where id=%d" % (mission_name, trigger_time, id)
-            print("modify_sql: " + modify_sql)
+            logging.info("modify sql: " + modify_sql)
             query_sql = "select * from mission_table where id=%d;" % id
-            print("query_sql: " + query_sql)
             try:
                 cursor.execute(modify_sql)
                 connection.commit()
@@ -69,6 +78,7 @@ def delete_mission(id):
     try:
         with connection.cursor() as cursor:
             del_sql = "delete from mission_table where id=%d;" % id
+            logging.info("delete sql:" + del_sql)
             query_sql = "select * from mission_table where id=%d;" % id
             try:
                 cursor.execute(query_sql)
@@ -92,11 +102,10 @@ def query_mission_by_id(id=0):
         with connection.cursor() as cursor:
             if id == 0:
                 sql ="select * from mission_table;"
-                cursor.execute(sql)
             else:
                 sql = "select * from mission_table where id=%d;" % id;
-                print("sql query request: " + sql)
-                cursor.execute(sql)
+            logging.info("sql query request: " + sql)
+            cursor.execute(sql)
             results = cursor.fetchall()    
             for row in results:
                 id = row[0]
@@ -121,7 +130,7 @@ def query_mission_by_mission_name_and_trigger_time(mission_name="null", trigger_
                 sql = "select * from mission_table where trigger_time='%s';" % trigger_time;
             else:
                 sql = "select * from mission_table where mission_name='%s' and trigger_time='%s';" % (mission_name, trigger_time);
-            print("sql query request: " + sql)
+            logging.info("sql query request: " + sql)
             cursor.execute(sql)
             results = cursor.fetchall()    
             for row in results:
@@ -129,7 +138,7 @@ def query_mission_by_mission_name_and_trigger_time(mission_name="null", trigger_
                 mission_name = row[1]
                 trigger_time = row[2]
                 # 打印结果
-                print ("sql query result: id=%d,mission_name=%s,trigger_time=%s" % \
+                logging.info("sql query result: id=%d,mission_name=%s,trigger_time=%s" % \
                         (id, mission_name, trigger_time ))
             return results
     finally:

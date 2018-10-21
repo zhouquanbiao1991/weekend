@@ -6,6 +6,6 @@ COPY . /app
 
 RUN pip3 install -r requestment
 
-EXPOSE 8888
+EXPOSE 8889
 
 CMD ["python","saturday.py"]

@@ -1,6 +1,7 @@
 import graphene
 import dao_mission
 import json  
+import logging
 
 #description of API
 class Mission(graphene.ObjectType):
@@ -15,7 +16,7 @@ class AddMission(graphene.Mutation):
     status = graphene.String()
     mission = graphene.Field(Mission)
     def mutate(self, info, missionName, triggerTime):
-        print("mutate(): get missionName:%s, triggerTime%s" % (missionName, triggerTime))
+        logging.info("add: missionName: %s, triggerTime: %s" % (missionName, triggerTime))
         if dao_mission.add_mission(missionName, triggerTime):
             status = "success"
         else:
@@ -29,7 +30,7 @@ class DeleteMission(graphene.Mutation):
     status = graphene.String()
     mission = graphene.Field(Mission)
     def mutate(self, info, id):
-        print("mutate(): delete mission id: %d" % (id))
+        logging.info("delete: mission id: %d" % (id))
         (id, mission_name, trigger_time, operation_status) = dao_mission.delete_mission(id)
         if operation_status:
             status = "success"
@@ -46,7 +47,7 @@ class ModifyMission(graphene.Mutation):
     status = graphene.String()
     mission = graphene.Field(Mission)
     def mutate(self, info, id, missionName, triggerTime):
-        print("mutate(): modify mission id: %d" % (id))
+        logging.info("modify:  mission id: %d, mission_name: %s, trigger_time: %s" % (id, mission_name, trigger_time))
         (id, mission_name, trigger_time, operation_status) = dao_mission.modify_mission(id, missionName, triggerTime)
         if operation_status:
             status = "success"
@@ -69,12 +70,14 @@ class Query(graphene.ObjectType):
                              mission_name = graphene.String(required=False, default_value="null"),
                              trigger_time = graphene.String(required=False, default_value="null"))
     def resolve_missions(self, info, id, mission_name, trigger_time):
-        print("goto sql query list")
         if id != 0:
+            logging.info("query: by id: %d" % (id))
             results = dao_mission.query_mission_by_id(id)
         elif mission_name!="null" or trigger_time!="null":
+            logging.info("query: by str: mission_name: %s, trigger_time: %s" % (mission_name, trigger_time))
             results = dao_mission.query_mission_by_mission_name_and_trigger_time(mission_name, trigger_time)
         else:
+            logging.info("query: by default")
             results = dao_mission.query_mission_by_id(0)
         m = []
         for row in results:
