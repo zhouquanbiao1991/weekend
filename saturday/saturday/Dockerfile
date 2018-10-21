@@ -1,10 +1,10 @@
-FROM python:latest
+FROM python:3.6
 
 WORKDIR /app
 
 COPY . /app
 
-RUN pip3 install -r requestment
+RUN pip install -r requestment && apt-get clean all
 
 EXPOSE 8889
 

@@ -1,3 +1,4 @@
 *
 !**/*.py
 !requestment
+!mysql.conf
